@@ -2,20 +2,21 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
-
+app.secret = "jose" #this is not tobe here!
 api = Api(app)
 
 items = []
 
 class Item(Resource):
     def get(self, name):
-        by_name = lambda item: item['name'] == name
-        found = list(filter(by_name, items))
-        if(len(found) > 0):
-            return found.pop(), 200
-        return { "item" : None }, 404
-    
+        found = next(filter(lambda x: x['name'] == name, items), None)
+        return {"item" : found}, 200 if found else 404
+ 
     def post(self, name):
+        found = next(filter(lambda x: x['name'] == name, items), None)
+        if(found):
+            return {"message": "an item with given name '{}' already exists".format(name) }, 400
+
         data = request.get_json(silent=True)
         item = {"name": name, "price": data['price']}
         items.append(item)
@@ -23,7 +24,7 @@ class Item(Resource):
 
     def put(self, name):
         pass
-    
+
     def delete(self, name):
         pass
 
