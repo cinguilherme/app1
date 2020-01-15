@@ -1,0 +1,1 @@
+This is a sample application using flask-restful with the sole purpose of exploring and testing development of web rest api using Python in 2020
