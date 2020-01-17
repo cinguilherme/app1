@@ -4,6 +4,8 @@ services:
     build: 
       context: .
     image: app1:latest
+    environment: 
+      - SECRET=secretHashCrazyImpossibleToGuessOrBreak
     volumes: 
       - ./code:/app/code
     ports: 

@@ -6,8 +6,8 @@ from security import authenticate, identity
 import os
 
 app = Flask(__name__)
-
-secret = "jose" #this is not tobe here! get from env
+secret = os.environ['SECRET']
+secret = secret #this is not tobe here! get from env
 
 app.secret_key = secret 
 api = Api(app)
