@@ -2,10 +2,14 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_jwt import JWT, jwt_required
 
-from secrets import authenticate, identity
+from security import authenticate, identity
+import os
 
 app = Flask(__name__)
-app.secret = "jose" #this is not tobe here!
+
+secret = "jose" #this is not tobe here! get from env
+
+app.secret_key = secret 
 api = Api(app)
 
 jwt = JWT(app, authenticate, identity) # /auth
