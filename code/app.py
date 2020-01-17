@@ -33,10 +33,23 @@ class Item(Resource):
         return item, 201
 
     def put(self, name):
-        pass
+        found = next(filter(lambda x: x['name'] == name, items), None)
+        if(found == None):
+            return {"message": "an item with given name '{}' does not exists".format(name) }, 400
+
+        data = request.get_json(silent=True)
+
+        global items
+        update = lambda x: data if x['name'] == name else x 
+        items = list(map(update ,items))
+        return { 'item': data }, 200
 
     def delete(self, name):
-        pass
+        global items
+        items = list(filter(lambda x: x['name'] != name, items))
+        return {'message': 'item deleted'}, 204
+        
+
 
 class ItemList(Resource):
     def get(self):
