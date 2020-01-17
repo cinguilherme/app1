@@ -1,8 +1,11 @@
 build-image:
-	docker build . -t app1:latest
+	sudo docker build . -t app1:latest
 
 run:
-	docker run app1:latest
+	sudo docker-compose up
+
+run-local:
+	python code/app.py
 
 
 activate-virtual-env:

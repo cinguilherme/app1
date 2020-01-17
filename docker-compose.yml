@@ -6,4 +6,4 @@ services:
     image: app1:latest
     ports: 
       - 5000:5000
-    command: python app/code/app.py
+    command: python app/code/app.py --host=0.0.0.0

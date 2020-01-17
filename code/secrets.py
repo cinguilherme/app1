@@ -5,8 +5,8 @@ users = [
     User(1, 'bob', 'sdf')
 ]
 
-username_mapping = { u.username: for u in users}
-userid_mapping = { u.user_id: for u in users}
+username_mapping = { u.username for u in users}
+userid_mapping = { u.id for u in users}
 
 def authenticate(username, password):
     user = username_mapping.get(username, None)
