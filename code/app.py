@@ -17,7 +17,7 @@ jwt = JWT(app, authenticate, identity) # /auth
 items = []
 
 class Item(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self, name):
         found = next(filter(lambda x: x['name'] == name, items), None)
         return {"item" : found}, 200 if found else 404
