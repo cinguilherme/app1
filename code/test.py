@@ -4,11 +4,13 @@ connection = sqlite3.connect('data.db')
 
 cursor = connection.cursor()
 
-create_table = "CREATE TABLE users (id int, username text, password text)"
+try:
+    create_table = "CREATE TABLE users (id int, username text, password text)"
+    cursor.execute(create_table)
+except:
+    print('users table already exists, its ok')
 
-cursor.execute(create_table)
-
-user = (1, 'jose', 'asd')
+#user = (1, 'jose', 'asd')
 insert_query = "INSERT INTO users values (?,?,?)"
 #cursor.execute(insert_query, user)
 

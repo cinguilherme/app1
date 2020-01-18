@@ -5,6 +5,8 @@ from flask_jwt import JWT, jwt_required
 from security import authenticate, identity
 import os
 
+import test
+
 app = Flask(__name__)
 secret = os.environ['SECRET']
 secret = secret #this is not tobe here! get from env
