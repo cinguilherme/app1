@@ -3,6 +3,16 @@ from flask_jwt import JWT, jwt_required
 
 items = []
 
+
+parser = reqparse.RequestParser()
+parser.add_argument('price', 
+    type=float, required=True, help="this field cannot be blank")
+
+
+def lookup(name):
+    return next(filter(lambda x: x['name'] == name, items), None)
+
+
 class Item(Resource):
     
     def get_data(self):
@@ -44,4 +54,7 @@ class Item(Resource):
         
         items = list(filter(lambda x: x['name'] != name, items))
         return {'message': 'item deleted'}, 204
-     
+
+class ItemList(Resource):
+    def get(self):
+        return { 'items': items }

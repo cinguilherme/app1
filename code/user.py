@@ -63,13 +63,13 @@ class UserResource(Resource):
         data = self.get_data()
         print(data)
 
-        # connection = sqlite3.connect('data.db')
-        # cursor = connection.cursor()
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
 
-        # query = "INSERT INTO users values (NULL, ?, ?)"
-        # cursor.execute(query, (data['username'], data['password']))
+        query = "INSERT INTO users values (NULL, ?, ?)"
+        cursor.execute(query, (data['username'], data['password']))
 
-        # connection.close()
+        connection.close()
 
         print('got the post request for user register')
         return {'message': 'user created successfuly', 'data_received': data}, 201
