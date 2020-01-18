@@ -35,28 +35,24 @@ class Item(Resource):
         return {"item" : found}, 200 if found else 404
  
     def post(self, name):
-        data = self.get_data()
-
-        found = lookup(name)
-        if(found):
+        if(lookup(name)):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
 
+        data = self.get_data()
         item = {"name": name, "price": data['price']}
         items.append(item)
         return item, 201
 
     def put(self, name):
-        data = self.get_data()
-        
         global items
         
         found = lookup(name)
-        
         if(found == None):
             item = {"name": name, "price": data['price']}
             items.append(item)
             return { 'item': item }, 201
-
+        
+        data = self.get_data()
         found.update(data)
         return { 'item': found }, 200
 
