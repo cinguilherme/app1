@@ -16,23 +16,28 @@ jwt = JWT(app, authenticate, identity) # /auth
 
 items = []
 
-def get_filtered_data():
-    parser = reqparse.RequestParser()
-    parser.add_argument('price', 
-        type=float, required=True, help="this field cannot be blank")
-    return parser.parse_args()
+parser = reqparse.RequestParser()
+parser.add_argument('price', 
+    type=float, required=True, help="this field cannot be blank")
+
+
+def lookup(name):
+    return next(filter(lambda x: x['name'] == name, items), None)
 
 class Item(Resource):
     
+    def get_data(self):
+        return parser.parse_args()
+
     @jwt_required()
     def get(self, name):
         found = next(filter(lambda x: x['name'] == name, items), None)
         return {"item" : found}, 200 if found else 404
  
     def post(self, name):
-        data = get_filtered_data()
+        data = self.get_data()
 
-        found = next(filter(lambda x: x['name'] == name, items), None)
+        found = lookup(name)
         if(found):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
 
@@ -41,11 +46,11 @@ class Item(Resource):
         return item, 201
 
     def put(self, name):
-        data = get_filtered_data()
+        data = self.get_data()
         
         global items
         
-        found = next(filter(lambda x: x['name'] == name, items), None)
+        found = lookup(name)
         
         if(found == None):
             item = {"name": name, "price": data['price']}
