@@ -33,19 +33,27 @@ class Item(Resource):
         return item, 201
 
     def put(self, name):
-        found = next(filter(lambda x: x['name'] == name, items), None)
-        if(found == None):
-            return {"message": "an item with given name '{}' does not exists".format(name) }, 400
-
-        data = request.get_json(silent=True)
-
         global items
+        data = request.get_json(silent=True)
+        found = next(filter(lambda x: x['name'] == name, items), None)
+        
+        if(found == None):
+            item = {"name": name, "price": data['price']}
+            items.append(item)
+            return item, 201
+
+        
         update = lambda x: data if x['name'] == name else x 
         items = list(map(update ,items))
         return { 'item': data }, 200
 
     def delete(self, name):
         global items
+        found = next(filter(lambda x: x['name'] == name, items), None)
+        
+        if(found == None):
+            return {"message": "an item with given name '{}' does not exists".format(name) }, 404
+        
         items = list(filter(lambda x: x['name'] != name, items))
         return {'message': 'item deleted'}, 204
         
