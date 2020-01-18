@@ -61,14 +61,14 @@ class UserResource(Resource):
 
     def post(self):
         data = self.get_data()
-        print(data)
-
+        
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
         query = "INSERT INTO users values (NULL, ?, ?)"
         cursor.execute(query, (data['username'], data['password']))
 
+        connection.commit()
         connection.close()
 
         print('got the post request for user register')
