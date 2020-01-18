@@ -74,7 +74,7 @@ class UserResource(Resource):
         exists = UserResource.check_user_exist(data['username'], cursor)
         if(exists):
             connection.close()
-            return { 'message': 'username already exists' }, 400
+            return True
         return False
 
     @classmethod
@@ -92,8 +92,8 @@ class UserResource(Resource):
         
         connection = sqlite3.connect('data.db')
         exist = UserResource.break_if_already_exists(connection, data)
-        if(exist == False):
-            return UserResource.create_new_user(connection, data)
+        if(exist):
+            return { 'message': 'username already exists' }, 400
         else:
-            return exist
+            return UserResource.create_new_user(connection, data)
 
