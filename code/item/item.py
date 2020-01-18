@@ -30,6 +30,17 @@ def get_all_items():
     connection.close()
     return row
 
+def save_new_item(name, data):
+    connection = sqlite3.connect('data.db')
+    cursor = connection.cursor()
+
+    query = "INSERT INTO items values (NULL, ?, ?)"
+    cursor.execute(query, (name, data['price']))
+
+    connection.commit()
+    connection.close()
+    return {'item': {'name':name, 'price':data['price']}}, 201
+
 class Item(Resource):
     
     def get_data(self):
@@ -47,27 +58,16 @@ class Item(Resource):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
         
         data = self.get_data()
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "INSERT INTO items values (NULL, ?, ?)"
-        cursor.execute(query, (name, data['price']))
-
-        connection.commit()
-        connection.close()
-        return {'item': {'name':name, 'price':data['price']}}, 201
+        return save_new_item(name, data)
 
     def put(self, name):
-        global items
         data = self.get_data()
-        found = lookup(name)
-        if(found == None):
-            item = {"name": name, "price": data['price']}
-            items.append(item)
-            return { 'item': item }, 201
+        if item_by_name(name):
+            #update code here
+            return { 'message': ' to be implemented' }, 207
+        else:
+            return save_new_item(name, data)
         
-        found.update(data)
-        return { 'item': found }, 200
 
     @jwt_required()
     def delete(self, name):

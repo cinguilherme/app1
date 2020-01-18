@@ -30,4 +30,6 @@ api.add_resource(ItemList, '/items')
 api.add_resource(UserResource, '/register')
 
 print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
-app.run(host="0.0.0.0",port=5000, debug=True)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0",port=5000, debug=True)
