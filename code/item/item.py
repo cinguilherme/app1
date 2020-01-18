@@ -1,9 +1,8 @@
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, reqparse
 from flask_jwt import JWT, jwt_required
 import sqlite3
 
 items = []
-
 
 parser = reqparse.RequestParser()
 parser.add_argument('price', 
@@ -21,6 +20,16 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+        query = "select * from items where name=?"
+        result = cursor.execute(query, (name,))
+        row = result.fetchone()
+        connection.close()
+        if row:
+            return {'item': {'name': row[0], 'price': row[1]}}
+        return {'message': 'item not found'}, 404
+        
         found = next(filter(lambda x: x['name'] == name, items), None)
         return {"item" : found}, 200 if found else 404
  

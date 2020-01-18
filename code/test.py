@@ -11,7 +11,7 @@ except:
     print('users table already exists, its ok')
 
 try:
-    create_table = "CREATE TABLE imtes (id INTEGER PRIMARY KEY, name text, price float)"
+    create_table = "CREATE TABLE items (id INTEGER PRIMARY KEY, name text, price float)"
     cursor.execute(create_table)
 except:
     print('items table already exists, its ok')
