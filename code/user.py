@@ -1,5 +1,5 @@
 import sqlite3
-
+from flask_restful import Resource
 
 def return_user_from_row(row):
     if row:
@@ -46,3 +46,8 @@ class User:
         user = return_user_from_row(row)
         connection.close()
         return user
+
+class UserResource(Resource):
+    def post(self):
+        print('got the post request for user register')
+        return {'message': 'got the post request for user register'}

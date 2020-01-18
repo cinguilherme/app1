@@ -1,38 +1,7 @@
-from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 
-from security import authenticate, identity
-import os
-
-import test
-
-from user import UserResource
-
-SECRET = os.environ['SECRET']
-FLASK_APP = os.environ['FLASK_APP']
-API_SETTING = os.environ['API_SETTING']
-DATABASE_URL = os.environ['DATABASE_URL']
-POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
-SERVER_HOST = os.environ['SERVER_HOST']
-SERVER_PORT = int(os.environ['SERVER_PORT'])
-
-app = Flask(__name__)
-
-app.secret_key = SECRET 
-api = Api(app)
-
-jwt = JWT(app, authenticate, identity) # /auth
-
 items = []
-
-parser = reqparse.RequestParser()
-parser.add_argument('price', 
-    type=float, required=True, help="this field cannot be blank")
-
-
-def lookup(name):
-    return next(filter(lambda x: x['name'] == name, items), None)
 
 class Item(Resource):
     
@@ -75,16 +44,4 @@ class Item(Resource):
         
         items = list(filter(lambda x: x['name'] != name, items))
         return {'message': 'item deleted'}, 204
-        
-
-
-class ItemList(Resource):
-    def get(self):
-        return { 'items': items }
-
-api.add_resource(Item, '/item/<string:name>')
-api.add_resource(ItemList, '/items')
-api.add_resource(UserResource, '/register')
-
-print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
-app.run(host="0.0.0.0",port=5000, debug=True)
+     
