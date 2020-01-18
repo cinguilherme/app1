@@ -45,14 +45,13 @@ class Item(Resource):
 
     def put(self, name):
         global items
-        
+        data = self.get_data()
         found = lookup(name)
         if(found == None):
             item = {"name": name, "price": data['price']}
             items.append(item)
             return { 'item': item }, 201
         
-        data = self.get_data()
         found.update(data)
         return { 'item': found }, 200
 
