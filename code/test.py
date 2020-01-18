@@ -10,6 +10,13 @@ try:
 except:
     print('users table already exists, its ok')
 
+try:
+    create_table = "CREATE TABLE imtes (id INTEGER PRIMARY KEY, name text, price float)"
+    cursor.execute(create_table)
+except:
+    print('items table already exists, its ok')
+
+
 #user = (1, 'jose', 'asd')
 insert_query = "INSERT INTO users values (?,?,?)"
 #cursor.execute(insert_query, user)
