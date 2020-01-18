@@ -69,16 +69,8 @@ class UserResource(Resource):
         return False
 
     @classmethod
-    def break_if_already_exists(cls, connection, data):
-        cursor = connection.cursor()
-        exists = UserResource.check_user_exist(data['username'], cursor)
-        if(exists):
-            connection.close()
-            return True
-        return False
-
-    @classmethod
-    def create_new_user(cls, connection ,data):
+    def create_new_user(cls, data):
+        connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
         query = "INSERT INTO users values (NULL, ?, ?)"
         cursor.execute(query, (data['username'], data['password']))
@@ -90,10 +82,8 @@ class UserResource(Resource):
     def post(self):
         data = self.get_data()
         
-        connection = sqlite3.connect('data.db')
-        exist = UserResource.break_if_already_exists(connection, data)
-        if(exist):
+        if User.find_by_username(data['username']):
             return { 'message': 'username already exists' }, 400
-        else:
-            return UserResource.create_new_user(connection, data)
+
+        return UserResource.create_new_user(data)
 
