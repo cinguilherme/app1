@@ -21,6 +21,15 @@ def item_by_name(name):
     connection.close()
     return row
 
+def get_all_items():
+    connection = sqlite3.connect('data.db')
+    cursor = connection.cursor()
+    query = "select * from items"
+    result = cursor.execute(query)
+    row = result.fetchall()
+    connection.close()
+    return row
+
 class Item(Resource):
     
     def get_data(self):
@@ -73,4 +82,5 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        return { 'items': items }
+        items = [{ 'name': item[1], 'price': item[2] } for item in get_all_items()]
+        return {'items': items }, 200
