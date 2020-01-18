@@ -7,6 +7,9 @@ services:
     environment: 
       - SECRET=secretHashCrazyImpossibleToGuessOrBreak
       - DB_PORT=15432
+      - DATABASE_URL=app1-postgres:/app1
+      - API_SETTING=development
+      - FLASK_APP=app.py
     volumes: 
       - ./code:/app/code
     ports: 
@@ -16,16 +19,16 @@ services:
     networks:
       - postgres-compose-network
   
-  # teste-postgres-compose:
-  #   image: postgres
-  #   environment:
-  #     POSTGRES_PASSWORD: "Postgres2019!"
-  #   ports:
-  #     - "15432:5432"
-  #   volumes:
-  #     - /home/renatogroffe/Desenvolvimento/Docker-Compose/PostgreSQL:/var/lib/postgresql/data 
-  #   networks:
-  #     - postgres-compose-network
+  app1-postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "Postgres2019!"
+    ports:
+      - "15432:5432"
+    volumes:
+      - /home/renatogroffe/Desenvolvimento/Docker-Compose/PostgreSQL:/var/lib/postgresql/data 
+    networks:
+      - postgres-compose-network
         
   # teste-pgadmin-compose:
   #   image: dpage/pgadmin4
