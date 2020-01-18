@@ -54,20 +54,6 @@ class User:
         connection.close()
         return user
 
-class UserResource(Resource):
-
-    def get_data(self):
-        return parser.parse_args()
-
-    @classmethod
-    def check_user_exist(cls, username, cursor):
-        query = "SELECT username from users where username=?"
-        result = cursor.execute(query, (username,))
-        row = result.fetchone()
-        if(row):
-            return True
-        return False
-
     @classmethod
     def create_new_user(cls, data):
         connection = sqlite3.connect('data.db')
@@ -77,13 +63,19 @@ class UserResource(Resource):
 
         connection.commit()
         connection.close()
-        return {'message': 'user created successfuly'}, 201
+        return True
+
+class UserResource(Resource):
+
+    def get_data(self):
+        return parser.parse_args()
 
     def post(self):
         data = self.get_data()
         
         if User.find_by_username(data['username']):
             return { 'message': 'username already exists' }, 400
+        if User.create_new_user(data):
+            return {'message': 'user created successfuly'}, 201
 
-        return UserResource.create_new_user(data)
 
