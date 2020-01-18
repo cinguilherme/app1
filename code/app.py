@@ -7,11 +7,17 @@ import os
 
 import test
 
-app = Flask(__name__)
-secret = os.environ['SECRET']
-secret = secret #this is not tobe here! get from env
+SECRET = os.environ['SECRET']
+FLASK_APP = os.environ['FLASK_APP']
+API_SETTING = os.environ['API_SETTING']
+DATABASE_URL = os.environ['DATABASE_URL']
+POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
+SERVER_HOST = os.environ['SERVER_HOST']
+SERVER_PORT = int(os.environ['SERVER_PORT'])
 
-app.secret_key = secret 
+app = Flask(__name__)
+
+app.secret_key = SECRET 
 api = Api(app)
 
 jwt = JWT(app, authenticate, identity) # /auth
@@ -77,7 +83,5 @@ class ItemList(Resource):
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 
-#LINUX machine use 0.0.0.0 mac use 127.0.0.1
-host="0.0.0.0" 
-
-app.run(host=host,port=5000, debug=True)
+print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
+app.run(host="0.0.0.0",port=5000, debug=True)
