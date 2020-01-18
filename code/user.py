@@ -1,5 +1,12 @@
 import sqlite3
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
+
+parser = reqparse.RequestParser()
+parser.add_argument('username', 
+    type=str, required=True, help="this field cannot be blank")
+parser.add_argument('password', 
+    type=str, required=True, help="this field cannot be blank")
+
 
 def return_user_from_row(row):
     if row:
@@ -48,6 +55,21 @@ class User:
         return user
 
 class UserResource(Resource):
+
+    def get_data(self):
+        return parser.parse_args()
+
     def post(self):
+        data = self.get_data()
+        print(data)
+
+        # connection = sqlite3.connect('data.db')
+        # cursor = connection.cursor()
+
+        # query = "INSERT INTO users values (NULL, ?, ?)"
+        # cursor.execute(query, (data['username'], data['password']))
+
+        # connection.close()
+
         print('got the post request for user register')
-        return {'message': 'got the post request for user register'}
+        return {'message': 'user created successfuly', 'data_received': data}, 201
