@@ -41,6 +41,9 @@ def save_new_item(name, data):
     connection.close()
     return {'item': {'name':name, 'price':data['price']}}, 201
 
+def update_item(name, data):
+    return { 'message': ' to be implemented' }, 207
+
 class Item(Resource):
     
     def get_data(self):
@@ -63,21 +66,21 @@ class Item(Resource):
     def put(self, name):
         data = self.get_data()
         if item_by_name(name):
-            #update code here
-            return { 'message': ' to be implemented' }, 207
+            return update_item(name, data)
         else:
             return save_new_item(name, data)
         
 
     @jwt_required()
     def delete(self, name):
-        global items
-        found = next(filter(lambda x: x['name'] == name, items), None)
-        
-        if(found == None):
-            return {"message": "an item with given name '{}' does not exists".format(name) }, 404
-        
-        items = list(filter(lambda x: x['name'] != name, items))
+
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "DELETE FROM items where name=?"
+        result = cursor.execute(query, (name,))
+        connection.commit()
+        connection.close();
         return {'message': 'item deleted'}, 204
 
 class ItemList(Resource):
