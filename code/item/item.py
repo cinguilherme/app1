@@ -12,6 +12,14 @@ parser.add_argument('price',
 def lookup(name):
     return next(filter(lambda x: x['name'] == name, items), None)
 
+def item_by_name(name):
+    connection = sqlite3.connect('data.db')
+    cursor = connection.cursor()
+    query = "select * from items where name=?"
+    result = cursor.execute(query, (name,))
+    row = result.fetchone()
+    connection.close()
+    return row
 
 class Item(Resource):
     
@@ -20,27 +28,25 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        query = "select * from items where name=?"
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-        connection.close()
+        row = item_by_name(name)
         if row:
             return {'item': {'name': row[0], 'price': row[1]}}
         return {'message': 'item not found'}, 404
-        
-        found = next(filter(lambda x: x['name'] == name, items), None)
-        return {"item" : found}, 200 if found else 404
  
     def post(self, name):
-        if(lookup(name)):
+        if item_by_name(name):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
-
+        
         data = self.get_data()
-        item = {"name": name, "price": data['price']}
-        items.append(item)
-        return item, 201
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "INSERT INTO items values (NULL, ?, ?)"
+        cursor.execute(query, (name, data['price']))
+
+        connection.commit()
+        connection.close()
+        return {'item': {'name':name, 'price':data['price']}}, 201
 
     def put(self, name):
         global items
