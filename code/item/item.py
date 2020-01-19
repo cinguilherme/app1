@@ -42,7 +42,15 @@ def save_new_item(name, data):
     return {'item': {'name':name, 'price':data['price']}}, 201
 
 def update_item(name, data):
-    return { 'message': ' to be implemented' }, 207
+    connection = sqlite3.connect('data.db')
+    cursor = connection.cursor()
+
+    query = "UPDATE items set (NULL, ?, ?)"
+    cursor.execute(query, (name, data['price']))
+
+    connection.commit()
+    connection.close()
+    return { 'message': ' to be implemented' }, 200
 
 class Item(Resource):
     
@@ -61,14 +69,21 @@ class Item(Resource):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
         
         data = self.get_data()
-        return save_new_item(name, data)
+        try:
+            return save_new_item(name, data)
+        except:
+            return {'message': 'problem occurred'}, 503
+
 
     def put(self, name):
         data = self.get_data()
-        if item_by_name(name):
-            return update_item(name, data)
-        else:
-            return save_new_item(name, data)
+        try:
+            if item_by_name(name):
+                return update_item(name, data)
+            else:
+                return save_new_item(name, data)
+         except:
+            return {'message': 'problem occurred'}, 500
         
 
     @jwt_required()
