@@ -1,6 +1,6 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-from models.user import User
+from models.user import UserModel
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', 
@@ -17,9 +17,9 @@ class UserResource(Resource):
     def post(self):
         data = self.get_data()
         
-        if User.find_by_username(data['username']):
+        if UserModel.find_by_username(data['username']):
             return { 'message': 'username already exists' }, 400
-        if User.create_new_user(data):
+        if UserModel.create_new_user(data):
             return {'message': 'user created successfuly'}, 201
 
 

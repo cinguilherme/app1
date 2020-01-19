@@ -6,12 +6,12 @@ def get_connection_cursor():
 
 def return_user_from_row(row):
     if row:
-        user = User(*row)
+        user = UserModel(*row)
     else:
         user = None
     return user
 
-class User:
+class UserModel:
     def __init__(self, _id, username, password):
         self.id = _id
         self.username = username
