@@ -10,10 +10,6 @@ class ItemModel:
         return { 'name': self.name, 'price': self.price }
 
     @classmethod
-    def lookup(cls, name):
-        return next(filter(lambda x: x['name'] == name, items), None)
-
-    @classmethod
     def item_by_name(csl, name):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
@@ -57,4 +53,15 @@ class ItemModel:
         connection.commit()
         connection.close()
         return { 'item': data }, 200
+
+    @classmethod
+    def delete_item(cls, name):
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "DELETE FROM items where name=?"
+        result = cursor.execute(query, (name,))
+        connection.commit()
+        connection.close();
+        return True
 

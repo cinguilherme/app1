@@ -4,52 +4,10 @@ import sqlite3
 
 from models.item import ItemModel
 
-items = []
-
 parser = reqparse.RequestParser()
 parser.add_argument('price', 
     type=float, required=True, help="this field cannot be blank")
 
-
-def item_by_name(name):
-    connection = sqlite3.connect('data.db')
-    cursor = connection.cursor()
-    query = "select * from items where name=?"
-    result = cursor.execute(query, (name,))
-    row = result.fetchone()
-    connection.close()
-    return row
-
-def get_all_items():
-    connection = sqlite3.connect('data.db')
-    cursor = connection.cursor()
-    query = "select * from items"
-    result = cursor.execute(query)
-    row = result.fetchall()
-    connection.close()
-    return row
-
-def save_new_item(name, data):
-    connection = sqlite3.connect('data.db')
-    cursor = connection.cursor()
-
-    query = "INSERT INTO items values (NULL, ?, ?)"
-    cursor.execute(query, (name, data['price']))
-
-    connection.commit()
-    connection.close()
-    return {'item': {'name':name, 'price':data['price']}}, 201
-
-def update_item(name, data):
-    connection = sqlite3.connect('data.db')
-    cursor = connection.cursor()
-
-    query = "UPDATE items set price=? where name=?"
-    cursor.execute(query, (data['price'],name))
-
-    connection.commit()
-    connection.close()
-    return { 'item': data }, 200
 
 class Item(Resource):
     
@@ -58,44 +16,41 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
-        row = item_by_name(name)
+        row = ItemModel.item_by_name(name)
         if row:
             return {'item': {'name': row[0], 'price': row[1]}}
         return {'message': 'item not found'}, 404
  
     def post(self, name):
-        if item_by_name(name):
+        if ItemModel.item_by_name(name):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
         
         data = self.get_data()
         try:
-            return save_new_item(name, data)
+            return ItemModel.save_new_item(name, data)
         except:
             return {'message': 'problem occurred'}, 503
 
 
     def put(self, name):
         data = self.get_data()
+        print(data)
         try:
-            if item_by_name(name):
-                return update_item(name, data)
+            if ItemModel.item_by_name(name):
+                return ItemModel.update_item(name, data)
             else:
-                return save_new_item(name, data)
+                return ItemModel.save_new_item(name, data)
         except:
             return {'message': 'problem occurred'}, 500
         
 
     @jwt_required()
     def delete(self, name):
+        if ItemModel.delete_item(name):
+            return {'message': 'item deleted'}, 204
+        else:
+            return {'message': 'unable to delete item'}, 500
 
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "DELETE FROM items where name=?"
-        result = cursor.execute(query, (name,))
-        connection.commit()
-        connection.close();
-        return {'message': 'item deleted'}, 204
 
 class ItemList(Resource):
     def get(self):
