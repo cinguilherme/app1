@@ -45,8 +45,8 @@ def update_item(name, data):
     connection = sqlite3.connect('data.db')
     cursor = connection.cursor()
 
-    query = "UPDATE items set (NULL, ?, ?)"
-    cursor.execute(query, (name, data['price']))
+    query = "UPDATE items set price=? where name=?"
+    cursor.execute(query, (data['price'],name))
 
     connection.commit()
     connection.close()
@@ -82,7 +82,7 @@ class Item(Resource):
                 return update_item(name, data)
             else:
                 return save_new_item(name, data)
-         except:
+        except:
             return {'message': 'problem occurred'}, 500
         
 
