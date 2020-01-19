@@ -1,6 +1,6 @@
 Flask-RESTful
 Flask-JWT
 pytest
-flask-sqlalchemy 
+flask-SQLAlchemy 
 psycopg2 
 flask-migrate

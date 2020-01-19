@@ -7,8 +7,8 @@ import os
 
 import test
 
-from user import UserResource
-from item.item import Item, ItemList
+from resources.user import UserResource
+from resources.item import Item, ItemList
 
 SECRET = os.environ['SECRET']
 FLASK_APP = os.environ['FLASK_APP']

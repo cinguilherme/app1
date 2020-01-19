@@ -1,12 +1,8 @@
 import sqlite3
-from flask_restful import Resource, reqparse
 
-parser = reqparse.RequestParser()
-parser.add_argument('username', 
-    type=str, required=True, help="this field cannot be blank")
-parser.add_argument('password', 
-    type=str, required=True, help="this field cannot be blank")
-
+def get_connection_cursor():
+    connection = sqlite3.connect('data.db')
+    return connection.cursor(), connection
 
 def return_user_from_row(row):
     if row:
@@ -14,10 +10,6 @@ def return_user_from_row(row):
     else:
         user = None
     return user
-
-def get_connection_cursor():
-    connection = sqlite3.connect('data.db')
-    return connection.cursor(), connection
 
 class User:
     def __init__(self, _id, username, password):
@@ -64,18 +56,3 @@ class User:
         connection.commit()
         connection.close()
         return True
-
-class UserResource(Resource):
-
-    def get_data(self):
-        return parser.parse_args()
-
-    def post(self):
-        data = self.get_data()
-        
-        if User.find_by_username(data['username']):
-            return { 'message': 'username already exists' }, 400
-        if User.create_new_user(data):
-            return {'message': 'user created successfuly'}, 201
-
-

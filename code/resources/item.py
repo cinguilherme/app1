@@ -50,7 +50,7 @@ def update_item(name, data):
 
     connection.commit()
     connection.close()
-    return { 'message': ' to be implemented' }, 200
+    return { 'item': data }, 200
 
 class Item(Resource):
     
