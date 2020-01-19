@@ -11,13 +11,16 @@ class ItemModel:
 
     @classmethod
     def item_by_name(csl, name):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        query = "select * from items where name=?"
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-        connection.close()
-        return row
+        try:
+            connection = sqlite3.connect('data.db')
+            cursor = connection.cursor()
+            query = "select * from items where name=?"
+            result = cursor.execute(query, (name,))
+            row = result.fetchone()
+            connection.close()
+            return ItemModel(row[1], row[2])
+        except:
+            return None
 
     @classmethod
     def get_all_items(cls):

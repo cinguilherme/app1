@@ -16,13 +16,14 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
-        row = ItemModel.item_by_name(name)
-        if row:
-            return {'item': {'name': row[0], 'price': row[1]}}
+        item = ItemModel.item_by_name(name)
+        if item:
+            return {'item': item.json()}
         return {'message': 'item not found'}, 404
  
     def post(self, name):
-        if ItemModel.item_by_name(name):
+        item = ItemModel.item_by_name(name)
+        if item:
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
         
         data = self.get_data()
