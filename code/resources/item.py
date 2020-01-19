@@ -2,15 +2,14 @@ from flask_restful import Resource, reqparse
 from flask_jwt import JWT, jwt_required
 import sqlite3
 
+from models.item import ItemModel
+
 items = []
 
 parser = reqparse.RequestParser()
 parser.add_argument('price', 
     type=float, required=True, help="this field cannot be blank")
 
-
-def lookup(name):
-    return next(filter(lambda x: x['name'] == name, items), None)
 
 def item_by_name(name):
     connection = sqlite3.connect('data.db')
@@ -100,5 +99,5 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        items = [{ 'name': item[1], 'price': item[2] } for item in get_all_items()]
+        items = ItemModel.get_all_items()
         return {'items': items }, 200
