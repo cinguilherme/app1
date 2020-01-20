@@ -1,5 +1,7 @@
 import sqlite3
 
+from db import db
+
 def get_connection_cursor():
     connection = sqlite3.connect('data.db')
     return connection.cursor(), connection
@@ -11,7 +13,13 @@ def return_user_from_row(row):
         user = None
     return user
 
-class UserModel:
+class UserModel(db.Model):
+
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80))
+    password = db.Column(db.String(80))
+
     def __init__(self, _id, username, password):
         self.id = _id
         self.username = username

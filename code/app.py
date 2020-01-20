@@ -10,6 +10,7 @@ import test
 from resources.user import UserResource
 from resources.item import Item, ItemList
 
+
 SECRET = os.environ['SECRET']
 FLASK_APP = os.environ['FLASK_APP']
 API_SETTING = os.environ['API_SETTING']
@@ -19,6 +20,7 @@ SERVER_HOST = os.environ['SERVER_HOST']
 SERVER_PORT = int(os.environ['SERVER_PORT'])
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = SECRET 
 api = Api(app)
@@ -32,4 +34,6 @@ api.add_resource(UserResource, '/register')
 print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=5000, debug=True)
+    from db import db
+    db.init_app(app)
+    app.run(host="0.0.0.0", port=5000, debug=True)
