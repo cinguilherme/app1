@@ -1,8 +1,6 @@
 version: "3"
 services: 
   app:
-    depends_on:
-      - app1-postgres
     build: 
       context: .
     image: app1:latest
@@ -14,13 +12,15 @@ services:
       - POSTGRES_PASSWORD=Postgres2019!
       - SERVER_HOST="0.0.0.0"
       - SERVER_PORT=5000
-      - SQLITE_URI=sqlite:///../data.db
-      - SQLITE_FILE=../data.db
+      - SQLITE_URI=sqlite:///data.db
+      - SQLITE_FILE=data.db
       - POSTGRES_URL="app1-postgres:/app1"
     volumes: 
-      - ./code:/app/code
+      - ./:/app/
     ports: 
       - 5000:5000
+    depends_on:
+      - app1-postgres
     command: python app/code/test.py
     command: python app/code/app.py
     networks:
@@ -33,7 +33,7 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - /Users/laguilherme.cintra/Documents/volumes/volumes_study/app1db:/var/lib/postgresql/data
+      - data_app1db:/var/lib/postgresql/data
     networks:
       - postgres-compose-network
 
@@ -41,4 +41,5 @@ networks:
   postgres-compose-network:
     driver: bridge
 
-    
+volumes:
+  ? data_app1db

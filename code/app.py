@@ -10,7 +10,6 @@ import create_db
 from resources.user import UserResource
 from resources.item import Item, ItemList
 
-
 SECRET = os.environ['SECRET']
 FLASK_APP = os.environ['FLASK_APP']
 API_SETTING = os.environ['API_SETTING']
