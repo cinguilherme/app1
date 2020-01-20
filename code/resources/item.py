@@ -28,7 +28,8 @@ class Item(Resource):
         
         data = self.get_data()
         try:
-            return ItemModel.save_new_item(name, data)
+            item = ItemModel.save_new_item(name, data)
+            return {'item', item.json()}, 201
         except:
             return {'message': 'problem occurred'}, 503
 
@@ -56,4 +57,4 @@ class Item(Resource):
 class ItemList(Resource):
     def get(self):
         items = ItemModel.get_all_items()
-        return {'items': items }, 200
+        return {'items': [item.json() for item in items] }, 200

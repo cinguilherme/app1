@@ -1,12 +1,6 @@
 import sqlite3
 
 from db import db
-import os
-SQLITE_URI = os.environ['SQLITE_URI']
-SQLITE_FILE = os.environ['SQLITE_FILE']
-
-def get_connection():
-    return sqlite3.connect(SQLITE_FILE)
 
 class ItemModel(db.Model):
 
@@ -22,54 +16,42 @@ class ItemModel(db.Model):
     def json(self):
         return { 'name': self.name, 'price': self.price }
 
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @classmethod
     def item_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
     def get_all_items(cls):
-        
-        connection = get_connection()
-        cursor = connection.cursor()
-        query = "select * from items"
-        result = cursor.execute(query)
-        row = result.fetchall()
-        connection.close()
-        items = [ItemModel(n[1], n[2]).json() for n in row]
-        return items
+        return cls.query.all()
 
     @classmethod
     def save_new_item(csl, name, data):
-        connection = get_connection()
-        cursor = connection.cursor()
-
-        query = "INSERT INTO items values (NULL, ?, ?)"
-        cursor.execute(query, (name, data['price']))
-
-        connection.commit()
-        connection.close()
-        return {'item': {'name':name, 'price':data['price']} }, 201
+        item = ItemModel(name=name, price=data['price'])
+        item.save_to_db()
+        return item
 
     @classmethod
     def update_item(cls, name, data):
-        connection = get_connection()
-        cursor = connection.cursor()
-
-        query = "UPDATE items set price=? where name=?"
-        cursor.execute(query, (data['price'],name))
-
-        connection.commit()
-        connection.close()
-        return { 'item': data }, 200
+        item = cls.item_by_name(name)
+        if item:
+            item.price = data['price']
+        else:
+            item = ItemModel(name, data['price'])
+        item.save_to_db()
+        return item
 
     @classmethod
     def delete_item(cls, name):
-        connection = get_connection()
-        cursor = connection.cursor()
-
-        query = "DELETE FROM items where name=?"
-        result = cursor.execute(query, (name,))
-        connection.commit()
-        connection.close()
-        return True
+        item = ItemModel.item_by_name(name)
+        if item:
+            item.remove_from_db()
+        
 

@@ -1,23 +1,6 @@
 import sqlite3
-import os
+
 from db import db
-
-SQLITE_URI = os.environ['SQLITE_URI']
-SQLITE_FILE = os.environ['SQLITE_FILE']
-
-def get_connection():
-    return sqlite3.connect(SQLITE_FILE)
-
-def get_connection_cursor():
-    connection = get_connection()
-    return connection.cursor(), connection
-
-def return_user_from_row(row):
-    if row:
-        user = UserModel(*row)
-    else:
-        user = None
-    return user
 
 class UserModel(db.Model):
 
@@ -44,9 +27,7 @@ class UserModel(db.Model):
 
     @classmethod
     def create_new_user(cls, data):
-        
         user = UserModel(_id=1,username=data['username'], password=data['password'])
         db.session.add(user)
         db.session.commit()
-
         return user
