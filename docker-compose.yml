@@ -9,12 +9,14 @@ services:
     environment: 
       - SECRET=TXgKIXx6UHq4vHMfWoQ8H7JB0ut6gsBrwH0BaaHprDXEJ9COLC81sDz1z4ZXWaA23gph7CjSiLwkPVCsmXjhvECiV9hCAE1o4n8VOJixr1VR95cy6sPWOCe6UZNKW4eJeCzPIuSMQ5cZXAt9PLBCG77jFBJIYOIvjHF9IwwkghebHwKL16vtjJUoPKabt1YbC03NvJ3noKflIqTlxTObn7LcGPTaG7qWShkf7dnrAA7qg5nTgxOUfaZ0FB6AQdI0
       - DB_PORT=15432
-      - DATABASE_URL=app1-postgres:/app1
       - API_SETTING=development
       - FLASK_APP="app.py"
       - POSTGRES_PASSWORD=Postgres2019!
       - SERVER_HOST="0.0.0.0"
       - SERVER_PORT=5000
+      - SQLITE_URI=sqlite:///../data.db
+      - SQLITE_FILE=../data.db
+      - POSTGRES_URL="app1-postgres:/app1"
     volumes: 
       - ./code:/app/code
     ports: 

@@ -1,9 +1,15 @@
 import sqlite3
-
+import os
 from db import db
 
+SQLITE_URI = os.environ['SQLITE_URI']
+SQLITE_FILE = os.environ['SQLITE_FILE']
+
+def get_connection():
+    return sqlite3.connect(SQLITE_FILE)
+
 def get_connection_cursor():
-    connection = sqlite3.connect('data.db')
+    connection = get_connection()
     return connection.cursor(), connection
 
 def return_user_from_row(row):
@@ -25,42 +31,22 @@ class UserModel(db.Model):
         self.username = username
         self.password = password
 
+    def json(self):
+        return { 'username': self.username }
+
     @classmethod
     def find_by_username(cls, username):
-        
-        cursos, connection = get_connection_cursor()
-
-        query = "select * from users where username=?"
-        
-        # this is crap python.. shame on you.
-        result = cursos.execute(query, (username,))
-        row = result.fetchone()
-        
-        user = return_user_from_row(row)
-        connection.close()
-        
-        return user
+        return UserModel.query.filter_by(username=username).first()
 
     @classmethod
     def find_by_id(cls, _id):
-        cursos, connection = get_connection_cursor()
-
-        query = "select * from users where id=?"
-         
-        # this is crap python.. shame on you.
-        result = cursos.execute(query, (_id,))
-        row = result.fetchone()
-        user = return_user_from_row(row)
-        connection.close()
-        return user
+        return UserModel.query.filter_by(id=_id).first()
 
     @classmethod
     def create_new_user(cls, data):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        query = "INSERT INTO users values (NULL, ?, ?)"
-        cursor.execute(query, (data['username'], data['password']))
+        
+        user = UserModel(_id=1,username=data['username'], password=data['password'])
+        db.session.add(user)
+        db.session.commit()
 
-        connection.commit()
-        connection.close()
-        return True
+        return user

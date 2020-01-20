@@ -1,6 +1,8 @@
 import sqlite3
+import os
+SQLITE_URI = os.environ['SQLITE_URI']
 
-connection = sqlite3.connect('data.db')
+connection = sqlite3.connect(SQLITE_URI)
 
 cursor = connection.cursor()
 
