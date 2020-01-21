@@ -13,7 +13,7 @@ services:
       - SERVER_PORT=5000
       - SQLITE_URI=sqlite:///data.db
       - SQLITE_FILE=data.db
-      - POSTGRES_URL=app1-postgres:15432
+      - POSTGRES_URL=app1postgres:5432
       - POSTGRES_PW=Postgres2019!
       - POSTGRES_USER=postgres
       - POSTGRES_DB=test
@@ -22,10 +22,12 @@ services:
     ports: 
       - 5000:5000
     depends_on:
-      - app1-postgres
+      - app1postgres
     command: python app/code/app.py
+    networks:
+      - postgres-compose-network
   
-  app1-postgres:
+  app1postgres:
     image: postgres
     environment:
       POSTGRES_PASSWORD: "Postgres2019!"
@@ -33,6 +35,24 @@ services:
       - "15432:5432"
     volumes:
       - data_app1db:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "renatogroff@yahoo.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
+    ports:
+      - "16543:80"
+    depends_on:
+      - app1postgres
+    networks:
+      - postgres-compose-network
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
 
 volumes:
   ? data_app1db
