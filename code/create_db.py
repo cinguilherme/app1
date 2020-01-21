@@ -5,7 +5,7 @@ SQLITE_FILE = os.environ['SQLITE_FILE']
 connection = sqlite3.connect(SQLITE_FILE)
 
 #from db import db
-#db.session.create_all()
+#db.session.create_all()tt
 
 cursor = connection.cursor()
 

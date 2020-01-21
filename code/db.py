@@ -1,3 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+db = None
+
+def create_db(app):
+    global db 
+    db = SQLAlchemy(app)
