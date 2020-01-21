@@ -23,6 +23,7 @@ services:
       - 5000:5000
     depends_on:
       - app1postgres
+    command: python app/code/migrations/user_migrate.py
     command: python app/code/app.py
     networks:
       - postgres-compose-network
