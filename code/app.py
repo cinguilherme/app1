@@ -5,6 +5,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 import os
 
+def migrate_db(app):
+    try:
+        from models.user import UserModel
+        from models.item import ItemModel
+        ItemModel.create_table(app)
+        UserModel.create_table(app)
+    except Exception as inst: 
+        print("cannot migrate db, {}".format(inst))
+
 def get_env_variable(name):
     try:
         return os.environ[name]
@@ -51,27 +60,11 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserResource, '/register')
 
-# Command to clear DB
-@app.cli.command('resetdb')
-def resetdb_command():
-    """Destroys and creates the database + tables."""
-
-    from sqlalchemy_utils import database_exists, create_database, drop_database
-    if database_exists(DB_URL):
-        print('Deleting database.')
-        drop_database(DB_URL)
-    if not database_exists(DB_URL):
-        print('Creating database.')
-        create_database(DB_URL)
-
-    print('Creating tables.')
-    db.create_all()
-    print('Shiny!')
-
-
 print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
 
 if __name__ == '__main__':
     from db import db
     db.init_app(app)
+    migrate_db(app)
     app.run(host="0.0.0.0", port=5000, debug=True)
+    

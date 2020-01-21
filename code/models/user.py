@@ -1,4 +1,4 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
@@ -36,3 +36,9 @@ class UserModel(db.Model):
         db.session.add(user)
         db.session.commit()
         return user
+
+    @classmethod
+    def create_table(cls, app):
+        _db = SQLAlchemy(app)
+        _db.create_all()
+        _db.session.commit()

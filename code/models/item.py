@@ -1,4 +1,4 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
@@ -53,5 +53,9 @@ class ItemModel(db.Model):
         item = ItemModel.item_by_name(name)
         if item:
             item.remove_from_db()
-        
 
+    @classmethod
+    def create_table(cls, app):
+        _db = SQLAlchemy(app)
+        _db.create_all()
+        _db.session.commit()

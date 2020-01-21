@@ -25,4 +25,3 @@ DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USE
 
 engine = create_engine(DB_URL, echo=True)
 
-Base.metadata.create_all(engine)
