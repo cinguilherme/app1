@@ -5,8 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 import os
 
-import create_db
-
 def get_env_variable(name):
     try:
         return os.environ[name]
@@ -31,23 +29,16 @@ DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USE
 
 #DBs URIs
 POSTGRES_URL = os.environ['POSTGRES_URL']
-SQLITE_URI = os.environ['SQLITE_URI']
 
 app = Flask(__name__)
 
 #mode sqlAlchemy stuff needs to be setup here
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# SQLITE or POSTGRES
-#app.config['SQLALCHEMY_DATABASE_URI'] = SQLITE_URI
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 
+#setup secret_key
 app.secret_key = SECRET 
 api = Api(app)
-
-import db
-db.create_db(app)
-
 
 ######### actual app #######
 from resources.user import UserResource

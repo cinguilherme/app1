@@ -5,9 +5,14 @@ from db import db
 class UserModel(db.Model):
 
     __tablename__ = 'users'
+    __table_args__ = {'schema': 'test'}
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
     def __init__(self, _id, username, password):
         self.id = _id
