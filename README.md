@@ -1,7 +1,7 @@
 
 This is a sample application using flask-restful with the sole purpose of exploring and testing development of web rest api using Python in 2020
 
-its using a python 3.5 environment
+its using a python 3.6 environment
 
 Its setup to use SQLite3 and PostgresSQL as database dependencies.
 
