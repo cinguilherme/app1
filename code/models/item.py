@@ -53,7 +53,9 @@ class ItemModel(db.Model):
     def delete_item(cls, name):
         item = ItemModel.item_by_name(name)
         if item:
-            item.remove_from_db()
+            item.delete_from_db()
+            return True
+        return False
 
     @classmethod
     def create_table(cls):

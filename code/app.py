@@ -41,8 +41,11 @@ print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
 if __name__ == '__main__':
     from db import db
     db.init_app(app)
-    from models import user, item
-    user.UserModel.create_table()
-    item.ItemModel.create_table()
+    
+    from models.user import UserModel
+    from models.item import ItemModel
+    UserModel.create_table()
+    ItemModel.create_table()
+
     app.run(host="0.0.0.0", port=5000, debug=True)
     

@@ -11,8 +11,6 @@ services:
       - FLASK_APP="app.py"
       - SERVER_HOST="0.0.0.0"
       - SERVER_PORT=5000
-      - SQLITE_URI=sqlite:///data.db
-      - SQLITE_FILE=data.db
       - POSTGRES_URL=app1postgres:5432
       - POSTGRES_PW=Postgres2019!
       - POSTGRES_USER=postgres

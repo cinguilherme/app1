@@ -27,9 +27,12 @@ class Item(Resource):
             return {"message": "an item with given name '{}' already exists".format(name) }, 400
         
         data = self.get_data()
+        print(data)
         try:
             item = ItemModel.save_new_item(name, data)
-            return {'item', item.json()}, 201
+            json = item.json()
+            obj = { 'item': json }
+            return obj , 201
         except:
             return {'message': 'problem occurred'}, 503
 
@@ -39,9 +42,11 @@ class Item(Resource):
         print(data)
         try:
             if ItemModel.item_by_name(name):
-                return ItemModel.update_item(name, data)
+                item = ItemModel.update_item(name, data)
+                return { 'item', item.json() } , 200
             else:
-                return ItemModel.save_new_item(name, data)
+                item = ItemModel.save_new_item(name, data)
+                return { 'item': item.json() }, 201
         except:
             return {'message': 'problem occurred'}, 500
         

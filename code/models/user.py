@@ -14,8 +14,7 @@ class UserModel(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self, _id, username, password):
-        self.id = _id
+    def __init__(self,username, password):
         self.username = username
         self.password = password
 
@@ -32,7 +31,7 @@ class UserModel(db.Model):
 
     @classmethod
     def create_new_user(cls, data):
-        user = UserModel(_id=1,username=data['username'], password=data['password'])
+        user = UserModel(username=data['username'], password=data['password'])
         db.session.add(user)
         db.session.commit()
         return user
