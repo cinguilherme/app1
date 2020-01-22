@@ -1,5 +1,5 @@
-import pytest
 from unittest import TestCase
+
 
 class UserResourceTest(TestCase):
 
