@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
+
 class ItemModel(db.Model):
 
     __tablename__ = 'items'
@@ -15,7 +16,7 @@ class ItemModel(db.Model):
         self.price = price
 
     def json(self):
-        return { 'name': self.name, 'price': self.price }
+        return {'name': self.name, 'price': self.price}
 
     def save_to_db(self):
         db.session.add(self)
