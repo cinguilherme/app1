@@ -38,7 +38,6 @@ class UserModel(db.Model):
         return user
 
     @classmethod
-    def create_table(cls, app):
-        _db = SQLAlchemy(app)
-        _db.create_all()
-        _db.session.commit()
+    def create_table(cls):
+        db.create_all()
+        db.session.commit()

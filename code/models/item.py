@@ -5,6 +5,7 @@ from db import db
 class ItemModel(db.Model):
 
     __tablename__ = 'items'
+    __table_args__ = {'schema': 'test'}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))
@@ -55,7 +56,6 @@ class ItemModel(db.Model):
             item.remove_from_db()
 
     @classmethod
-    def create_table(cls, app):
-        _db = SQLAlchemy(app)
-        _db.create_all()
-        _db.session.commit()
+    def create_table(cls):
+        db.create_all()
+        db.session.commit()
