@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
+
 class UserModel(db.Model):
 
     __tablename__ = 'users'
@@ -14,12 +15,12 @@ class UserModel(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self,username, password):
+    def __init__(self, username, password):
         self.username = username
         self.password = password
 
     def json(self):
-        return { 'username': self.username }
+        return {'username': self.username}
 
     @classmethod
     def find_by_username(cls, username):
