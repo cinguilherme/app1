@@ -1,0 +1,424 @@
+{
+	"info": {
+		"_postman_id": "a591dcfd-b8cf-4aa1-93c7-d44c02838fde",
+		"name": "pythons studies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "section 4",
+			"item": [
+				{
+					"name": "/items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d587417f-bd7a-49f9-9910-0dda85272ad3",
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/items",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"items"
+							]
+						},
+						"description": "return all items in json format"
+					},
+					"response": []
+				},
+				{
+					"name": "/auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c990b0d-61a3-4327-90c4-8a74486a9b47",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"token is present\"] = jsonData.access_token !== undefined;",
+									"",
+									"pm.environment.set(\"jwt_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"manu2\",\n\t\"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						},
+						"description": "return all items in json format"
+					},
+					"response": []
+				},
+				{
+					"name": "/register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"manu2\",\n\t\"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "return all items in json format"
+					},
+					"response": []
+				},
+				{
+					"name": "/item/{name}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "93a86a7e-8167-4d79-b35f-2e49efa985db",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e369046-87fc-49d4-bdc8-bb338bb2d243",
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/item/pen2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"pen2"
+							]
+						},
+						"description": "this will return one specific item unique."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/{name}",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\": 15.99\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/item/pen2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"pen2"
+							]
+						},
+						"description": "this will return one specific item unique."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/{name}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"bic\",\n\t\"price\": 11.95\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/item/pen4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"pen4"
+							]
+						},
+						"description": "this will return one specific item unique."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/{name}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/item/pen4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"pen4"
+							]
+						},
+						"description": "delete an item by name"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "hello world",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/student/chris",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"student",
+						"chris"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post students",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"student\": {\n\t\t\"name\": \"test name\",\n\t\t\"age\": \"12\",\n\t\t\"height\": 1.56,\n\t\t\"wheight\": 45\t\n\t},\n\t\"year\": 4,\n\t\"clas\": 1\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/todo/api/v1.0/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"todo",
+						"api",
+						"v1.0",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "production students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gccstudentsapi.herokuapp.com/todo/api/v1.0/students",
+					"protocol": "https",
+					"host": [
+						"gccstudentsapi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"todo",
+						"api",
+						"v1.0",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "production home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gccstudentsapi.herokuapp.com/",
+					"protocol": "https",
+					"host": [
+						"gccstudentsapi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
