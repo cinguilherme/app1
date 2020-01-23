@@ -49,8 +49,14 @@ docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (inde
 
 #### Milestones:
 
-ready to production in for heroku?
-ready to hookup with GOCD?
-ready to hookup with travis maybe?
-ready to hookup with an free CircleCI pipeline to run tests
+ready to production in for heroku? google? aws? kubernets friendly?
+
+integration with MQs? NTH
+
+Websockets??
+
+NoSQL???
+
+Redis??
+
 ready docker infra for local development in any machine.
