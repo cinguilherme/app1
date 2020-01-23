@@ -4,3 +4,4 @@ pytest
 flask-SQLAlchemy 
 psycopg2 
 flask-migrate
+flask-socketio

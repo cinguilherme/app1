@@ -53,7 +53,13 @@ ready to production in for heroku? google? aws? kubernets friendly?
 
 integration with MQs? NTH
 
-Websockets??
+### Websockets?? 
+#### flask-socketio
+(youtube video about flask-socketio)[https://www.youtube.com/watch?v=RdSrkkrj3l4]
+the bads, so far: the socketio will be a commom dependency between this back-end app and the frontend.
+
+#### flask cheat-sheets
+https://www.youtube.com/redirect?q=http%3A%2F%2Fprettyprinted.com%2Fflaskcheatsheet%2F&redir_token=2tSg9aEYaBIXZNrhEmv8V_VkxLh8MTU3OTg3NTk4NUAxNTc5Nzg5NTg1&v=RdSrkkrj3l4&event=video_description
 
 NoSQL???
 
