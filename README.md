@@ -9,15 +9,7 @@ docker-compose is using postgres for local development.
 
 Postman colection of requests are versionated as well.
 
-Milestones:
-
-ready to production in for heroku?
-ready to hookup with GOCD?
-ready to hookup with travis maybe?
-ready to hookup with an free CircleCI pipeline to run tests
-ready docker infra for local development in any machine.
-
-##################################### 
+#### VS CODE section
 
 Useful commands FOR VS CODE
 
@@ -47,3 +39,10 @@ docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (inde
 
 ```
 
+#### Milestones:
+
+ready to production in for heroku?
+ready to hookup with GOCD?
+ready to hookup with travis maybe?
+ready to hookup with an free CircleCI pipeline to run tests
+ready docker infra for local development in any machine.
