@@ -9,6 +9,9 @@ docker-compose is using postgres for local development.
 
 Postman colection of requests are versionated as well.
 
+## overall linux macos
+#### in linux, have sudo su enabled to avoid issues with docker.
+
 #### VS CODE section
 
 Useful commands FOR VS CODE
@@ -33,9 +36,14 @@ docker run -d -p8153:8153 -p8154:8154 gocd/gocd-server:v19.12.0
 ```
 
 ```
-docker run -d -e GO_SERVER_URL=https://0.0.0.0:8154/go gocd/gocd-agent-alpine-3.10:v19.12.0
+docker run --name gocd-server -d -e GO_SERVER_URL=https://0.0.0.0:8154/go gocd/gocd-agent-alpine-3.10:v19.12.0
 
-docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' nifty_keller):8154/go gocd/gocd-agent-alpine-3.10:v19.12.0
+docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' gocd-server):8154/go gocd/gocd-agent-alpine-3.10:v19.12.0
+```
+
+### customized agent for python related jobs
+``` 
+docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' gocd-server):8154/go gocd-agent-pytest:latest
 
 ```
 
