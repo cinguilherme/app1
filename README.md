@@ -34,6 +34,8 @@ its ready to use. But with some grunt work to be done. create a db called test a
 
 #### Milestones:
 
+prepush? requires pytest to be executable in local machine as well.
+
 ready to production in for heroku? google? aws? kubernets friendly?
 
 integration with MQs? NTH
