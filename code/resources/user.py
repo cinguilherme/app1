@@ -20,7 +20,9 @@ class UserResource(Resource):
 
         if UserModel.find_by_username(data['username']):
             return {'message': 'username already exists'}, 400
-        user = UserModel.create_new_user(data)
+
+        user = UserModel(**data)  # unpack
+        user.save_to_db()
         if user:
             return {'message': 'user created successfuly',
                     'user': user.json()}, 201

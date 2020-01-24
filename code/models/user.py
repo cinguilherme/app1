@@ -24,6 +24,14 @@ class UserModel(db.Model):
     def json(self):
         return {'username': self.username}
 
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @classmethod
     def find_by_username(cls, username):
         return UserModel.query.filter_by(username=username).first()
@@ -36,8 +44,7 @@ class UserModel(db.Model):
     def create_new_user(cls, data):
         user = UserModel(username=data['username'],
                          password=data['password'])
-        db.session.add(user)
-        db.session.commit()
+        user.save_to_db()
         return user
 
     @classmethod
