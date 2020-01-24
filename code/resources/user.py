@@ -1,12 +1,13 @@
-import sqlite3
 from flask_restful import Resource, reqparse
 from models.user import UserModel
 
 parser = reqparse.RequestParser()
 parser.add_argument('username',
-                    type=str, required=True, help="this field cannot be blank")
+                    type=str, required=True,
+                    help="this field cannot be blank")
 parser.add_argument('password',
-                    type=str, required=True, help="this field cannot be blank")
+                    type=str, required=True,
+                    help="this field cannot be blank")
 
 
 class UserResource(Resource):
@@ -21,4 +22,5 @@ class UserResource(Resource):
             return {'message': 'username already exists'}, 400
         user = UserModel.create_new_user(data)
         if user:
-            return {'message': 'user created successfuly', 'user': user.json()}, 201
+            return {'message': 'user created successfuly',
+                    'user': user.json()}, 201

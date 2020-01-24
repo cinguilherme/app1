@@ -1,12 +1,12 @@
 from flask_restful import Resource, reqparse
-from flask_jwt import JWT, jwt_required
-import sqlite3
+from flask_jwt import jwt_required
 
 from models.item import ItemModel
 
 parser = reqparse.RequestParser()
 parser.add_argument('price',
-                    type=float, required=True, help="this field cannot be blank")
+                    type=float, required=True,
+                    help="this field cannot be blank")
 
 
 class Item(Resource):
@@ -24,7 +24,8 @@ class Item(Resource):
     def post(self, name):
         item = ItemModel.item_by_name(name)
         if item:
-            return {"message": "an item with given name '{}' already exists".format(name)}, 400
+            return {"message": "an item with given name '{}'" +
+                    " already exists".format(name)}, 400
 
         data = self.get_data()
         print(data)
@@ -33,7 +34,7 @@ class Item(Resource):
             json = item.json()
             obj = {'item': json}
             return obj, 201
-        except:
+        except Exception:
             return {'message': 'problem occurred'}, 503
 
     def put(self, name):
@@ -46,7 +47,7 @@ class Item(Resource):
             else:
                 item = ItemModel.save_new_item(name, data)
                 return {'item': item.json()}, 201
-        except:
+        except Exception:
             return {'message': 'problem occurred'}, 500
 
     @jwt_required()

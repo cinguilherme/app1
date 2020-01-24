@@ -1,9 +1,9 @@
 from os import environ
-from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
 schema = environ['POSTGRES_SCHEMA']
+
 
 class ItemModel(db.Model):
 

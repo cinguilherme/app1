@@ -1,9 +1,9 @@
 from os import environ
-from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
 schema = environ['POSTGRES_SCHEMA']
+
 
 class UserModel(db.Model):
 
@@ -34,7 +34,8 @@ class UserModel(db.Model):
 
     @classmethod
     def create_new_user(cls, data):
-        user = UserModel(username=data['username'], password=data['password'])
+        user = UserModel(username=data['username'],
+                         password=data['password'])
         db.session.add(user)
         db.session.commit()
         return user
