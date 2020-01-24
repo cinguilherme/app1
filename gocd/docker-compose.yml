@@ -1,4 +1,4 @@
-version: "3"
+version: "3.1"
 services:
   gocd-server:
     image: gocd/gocd-server:v19.12.0
@@ -11,4 +11,6 @@ services:
     image: gocd-agent-pytest:latest
     container_name: python-agent
     environment:
-      GO_SERVER_URL: ""
+      - GO_SERVER_URL=https://gocd-server:8154/go
+    depends_on:
+      - gocd-server
