@@ -28,7 +28,7 @@ class Item(Resource):
                     " already exists".format(name)}, 400
 
         data = self.get_data()
-        print(data)
+
         try:
             item = ItemModel.save_new_item(name, data)
             json = item.json()
@@ -39,16 +39,17 @@ class Item(Resource):
 
     def put(self, name):
         data = self.get_data()
-        print(data)
+        item = ItemModel.item_by_name(name)
         try:
-            if ItemModel.item_by_name(name):
-                item = ItemModel.update_item(name, data)
-                return {'item', item.json()}, 200
+            if item:
+                item.price = data['price']
+                item.save_to_db()
+                return {'item': item.json()}, 200
             else:
                 item = ItemModel.save_new_item(name, data)
                 return {'item': item.json()}, 201
-        except Exception:
-            return {'message': 'problem occurred'}, 500
+        except Exception as error:
+            return {'message': 'problem occurred {}'.format(error)}, 500
 
     @jwt_required()
     def delete(self, name):
