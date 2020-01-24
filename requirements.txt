@@ -13,3 +13,9 @@ bson
 flask-socketio
 eventlet
 gevent
+
+#kafka stuff
+kafka-python
+
+#rabitMQ stuff
+pika

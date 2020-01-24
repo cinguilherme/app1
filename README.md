@@ -39,6 +39,11 @@ prepush? requires pytest to be executable in local machine as well.
 ready to production in for heroku? google? aws? kubernets friendly?
 
 integration with MQs? NTH
+### Kafka
+kafka-python is present
+
+### RabbitMQ
+pika dependency is present
 
 ### Websockets?? 
 #### flask-socketio
