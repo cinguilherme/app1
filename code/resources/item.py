@@ -9,7 +9,6 @@ parser.add_argument('price',
                     type=float, required=True, help="this field cannot be blank")
 
 
-
 class Item(Resource):
 
     def get_data(self):

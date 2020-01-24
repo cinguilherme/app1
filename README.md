@@ -28,24 +28,6 @@ Python: Configure Tests	Select a test framework and configure it to display the 
 
 #####################################
 
-
-#### GOCD infra docker ####
-
-```
-docker run -d -p8153:8153 -p8154:8154 gocd/gocd-server:v19.12.0
-```
-
-```
-docker run --name gocd-server -d -e GO_SERVER_URL=https://0.0.0.0:8154/go gocd/gocd-agent-alpine-3.10:v19.12.0
-
-docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' gocd-server):8154/go gocd/gocd-agent-alpine-3.10:v19.12.0
-```
-
-### customized agent for python related jobs
-``` 
-docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' gocd-server):8154/go gocd-agent-pytest:latest
-
-```
 #### flask SqlAlchemy
 its ready to use. But with some grunt work to be done. create a db called test and a schema called test. Have all of this properly hooked in the application.
 
@@ -60,12 +42,16 @@ integration with MQs? NTH
 #### flask-socketio
 (youtube video about flask-socketio)[https://www.youtube.com/watch?v=RdSrkkrj3l4]
 the bads, so far: the socketio will be a commom dependency between this back-end app and the frontend.
+###### some problems are up in regards to using websocket. Both api mode and websocket is not gonna fly. by it self it already seems like a possibility to have 1 application for websocket and another for rest-API
 
-#### flask cheat-sheets
-https://www.youtube.com/redirect?q=http%3A%2F%2Fprettyprinted.com%2Fflaskcheatsheet%2F&redir_token=2tSg9aEYaBIXZNrhEmv8V_VkxLh8MTU3OTg3NTk4NUAxNTc5Nzg5NTg1&v=RdSrkkrj3l4&event=video_description
 
-NoSQL???
+### NoSQL??? 
+some dependencies were added to be possible to use mongodb
 
 Redis??
 
 ready docker infra for local development in any machine.
+
+
+#### flask cheat-sheets
+https://www.youtube.com/redirect?q=http%3A%2F%2Fprettyprinted.com%2Fflaskcheatsheet%2F&redir_token=2tSg9aEYaBIXZNrhEmv8V_VkxLh8MTU3OTg3NTk4NUAxNTc5Nzg5NTg1&v=RdSrkkrj3l4&event=video_description

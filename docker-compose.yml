@@ -1,4 +1,4 @@
-version: "3"
+version: "3.1"
 services: 
   app:
     build: 
@@ -38,17 +38,48 @@ services:
     networks:
       - postgres-compose-network
 
-  pgadmin-compose:
-    image: dpage/pgadmin4
+  app1mongodb:
+    image: mongo
+    restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: "renatogroff@yahoo.com.br"
-      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
-    ports:
-      - "16543:80"
-    depends_on:
-      - app1postgres
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports: 
+      - 27018:27017
+    volumes:
+      - data_app1mongodb:/data/db
     networks:
       - postgres-compose-network
+  
+  ## not required as well
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  #     ME_CONFIG_MONGODB_PORT: 27017
+  #   depends_on: 
+  #     - app1mongodb
+  #   networks:
+  #     - postgres-compose-network
+
+  # not required for development, 
+  # just nice to have in case want to check the DB
+  
+  # pgadmin-compose:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "renatogroff@yahoo.com.br"
+  #     PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
+  #   ports:
+  #     - "16543:80"
+  #   depends_on:
+  #     - app1postgres
+  #   networks:
+  #     - postgres-compose-network
 
 networks: 
   postgres-compose-network:
@@ -56,3 +87,4 @@ networks:
 
 volumes:
   ? data_app1db
+  ? data_app1mongodb

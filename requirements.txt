@@ -1,7 +1,15 @@
 Flask-RESTful
 Flask-JWT
 pytest
+
 flask-SQLAlchemy 
 psycopg2 
 flask-migrate
+
+flask_pymongo
+flask_cors
+bson
+
 flask-socketio
+eventlet
+gevent
