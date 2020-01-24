@@ -46,6 +46,9 @@ docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (inde
 docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' gocd-server):8154/go gocd-agent-pytest:latest
 
 ```
+#### flask SqlAlchemy
+its ready to use. But with some grunt work to be done. create a db called test and a schema called test. Have all of this properly hooked in the application.
+
 
 #### Milestones:
 

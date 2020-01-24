@@ -15,6 +15,7 @@ services:
       - POSTGRES_PW=Postgres2019!
       - POSTGRES_USER=postgres
       - POSTGRES_DB=test
+      - POSTGRES_SCHEMA=test
     volumes: 
       - ./:/app/
     ports: 

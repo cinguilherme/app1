@@ -1,12 +1,14 @@
+from os import environ
 from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
+schema = environ['POSTGRES_SCHEMA']
 
 class UserModel(db.Model):
 
     __tablename__ = 'users'
-    __table_args__ = {'schema': 'test'}
+    __table_args__ = {'schema': schema}
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
