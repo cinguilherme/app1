@@ -12,7 +12,7 @@ class StoreModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
-    #items = db.relationship('ItemModel', lazy='dynamic')
+    items = db.relationship('ItemModel', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name
@@ -33,7 +33,3 @@ class StoreModel(db.Model):
     def get_all_stores(cls):
         return cls.query.all()
 
-    @classmethod
-    def create_table(cls):
-        db.create_all()
-        db.session.commit()

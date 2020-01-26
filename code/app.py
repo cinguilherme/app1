@@ -44,9 +44,8 @@ api = Api(app)
 # this does not replace a migration strategy
 @app.before_first_request
 def create_tables():
-    #db.drop_all()
-    #db.create_all()
-    pass
+    db.create_all()
+    db.session.commit()
 
 
 # wrap websocket in the app
@@ -69,9 +68,10 @@ if __name__ == '__main__':
     db.init_app(app)
 
     from models.user import UserModel
-    from models.item import ItemModel
     from models.store import StoreModel
+    from models.item import ItemModel
     db.create_all()
+    db.session.commit()
 
     # Theoretcly run the app with socketIO
     # to have it running as Websocket application

@@ -46,8 +46,3 @@ class UserModel(db.Model):
                          password=data['password'])
         user.save_to_db()
         return user
-
-    @classmethod
-    def create_table(cls):
-        db.create_all()
-        db.session.commit()
