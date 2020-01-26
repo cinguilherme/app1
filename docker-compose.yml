@@ -22,7 +22,7 @@ services:
       - 5000:5000
     depends_on:
       - app1postgres
-    command: python app/code/migrations/user_migrate.py
+    #command: python app/code/migrations/first_migration.py db init # still under development
     command: python app/code/app.py
     networks:
       - postgres-compose-network
@@ -69,17 +69,17 @@ services:
   # not required for development, 
   # just nice to have in case want to check the DB
   
-  pgadmin-compose:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "renatogroff@yahoo.com.br"
-      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
-    ports:
-      - "16543:80"
-    depends_on:
-      - app1postgres
-    networks:
-      - postgres-compose-network
+  # pgadmin-compose:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "renatogroff@yahoo.com.br"
+  #     PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
+  #   ports:
+  #     - "16543:80"
+  #   depends_on:
+  #     - app1postgres
+  #   networks:
+  #     - postgres-compose-network
 
 networks: 
   postgres-compose-network:

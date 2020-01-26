@@ -4,7 +4,8 @@ pytest
 
 flask-SQLAlchemy 
 psycopg2 
-flask-migrate
+Flask-Migrate
+Flask-Script
 
 flask_pymongo
 flask_cors

@@ -50,6 +50,8 @@ ready to production in for heroku? google? aws? kubernets friendly?
 
 integration with MQs? NTH
 
+### SQL db support with SQLAlchemy still under studies. Migrations strategy sorelly needed.
+
 ### Kafka
 
 kafka-python is present

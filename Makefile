@@ -11,3 +11,5 @@ start-gocd:
 	docker run --name gocd-server -d -p8153:8153 -p8154:8154 gocd/gocd-server:v19.12.0 
 	docker run -d -e GO_SERVER_URL=https://$(docker inspect --format='{{(index (index .NetworkSettings.IPAddress))}}' gocd-server):8154/go gocd-agent-pytest:latest
 
+wip:
+	git add . && git commit -m "shameless wip commit" && gp
