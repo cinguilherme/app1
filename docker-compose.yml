@@ -1,18 +1,18 @@
 version: "3.1"
-services: 
+services:
   app:
-    build: 
+    build:
       context: .
     image: app1:latest
-    environment: 
+    environment:
       - SECRET=TXgKIXx6UHq4vHMfWoQ8H7JB0ut6gsBrwH0BaaHprDXEJ9COLC81sDz1z4ZXWaA23gph7CjSiLwkPVCsmXjhvECiV9hCAE1o4n8VOJixr1VR95cy6sPWOCe6UZNKW4eJeCzPIuSMQ5cZXAt9PLBCG77jFBJIYOIvjHF9IwwkghebHwKL16vtjJUoPKabt1YbC03NvJ3noKflIqTlxTObn7LcGPTaG7qWShkf7dnrAA7qg5nTgxOUfaZ0FB6AQdI0
       - API_SETTING=development
       - POSTGRES_DB=test
       - POSTGRES_SCHEMA=test
       - DATABASE_URL=postgresql+psycopg2://postgres:Postgres2019!@app1postgres:5432/test
-    volumes: 
+    volumes:
       - ./:/app/
-    ports: 
+    ports:
       - 5000:5000
     depends_on:
       - app1postgres
@@ -20,7 +20,27 @@ services:
     command: python app/code/app.py
     networks:
       - postgres-compose-network
-  
+
+  app1-socket:
+    build:
+      context: .
+    image: app1:latest
+    environment:
+      - SECRET=TXgKIXx6UHq4vHMfWoQ8H7JB0ut6gsBrwH0BaaHprDXEJ9COLC81sDz1z4ZXWaA23gph7CjSiLwkPVCsmXjhvECiV9hCAE1o4n8VOJixr1VR95cy6sPWOCe6UZNKW4eJeCzPIuSMQ5cZXAt9PLBCG77jFBJIYOIvjHF9IwwkghebHwKL16vtjJUoPKabt1YbC03NvJ3noKflIqTlxTObn7LcGPTaG7qWShkf7dnrAA7qg5nTgxOUfaZ0FB6AQdI0
+      - API_SETTING=development
+      - POSTGRES_DB=test
+      - POSTGRES_SCHEMA=test
+      - DATABASE_URL=postgresql+psycopg2://postgres:Postgres2019!@app1postgres:5432/test
+    volumes:
+      - ./:/app/
+    ports:
+      - 5001:5000
+    depends_on:
+      - app1postgres
+    command: python app/code/app_socket.py
+    networks:
+      - postgres-compose-network
+
   app1postgres:
     image: postgres
     environment:
@@ -38,13 +58,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-    ports: 
+    ports:
       - 27018:27017
     volumes:
       - data_app1mongodb:/data/db
     networks:
       - postgres-compose-network
-  
+
   ## not required as well
   # mongo-express:
   #   image: mongo-express
@@ -55,14 +75,12 @@ services:
   #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
   #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
   #     ME_CONFIG_MONGODB_PORT: 27017
-  #   depends_on: 
+  #   depends_on:
   #     - app1mongodb
   #   networks:
   #     - postgres-compose-network
-
-  # not required for development, 
+  # not required for development,
   # just nice to have in case want to check the DB
-  
   # pgadmin-compose:
   #   image: dpage/pgadmin4
   #   environment:
@@ -75,10 +93,10 @@ services:
   #   networks:
   #     - postgres-compose-network
 
-networks: 
+networks:
   postgres-compose-network:
     driver: bridge
 
 volumes:
-  ? data_app1db
-  ? data_app1mongodb
+  data_app1db:
+  data_app1mongodb:
