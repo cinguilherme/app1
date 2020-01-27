@@ -14,24 +14,17 @@ from resources.store import Store, StoreList
 
 SECRET = os.environ['SECRET']
 
-FLASK_APP = os.environ['FLASK_APP']
 API_SETTING = os.environ['API_SETTING']
-
-SERVER_HOST = os.environ['SERVER_HOST']
-SERVER_PORT = int(os.environ['SERVER_PORT'])
-
-DB_URL = postgres.get_postgres_uri()
 
 app = Flask(__name__)
 
-# POSTGRES mode sqlAlchemy stuff needs to be setup here SQL DB
-POSTGRES_PW = os.environ['POSTGRES_PW']
+DB_URL = postgres.get_postgres_uri()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 
 # MONGO_DB NO SQL configs
-app.config['MONGO_DBNAME'] = 'mongotask'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/mongotask'
+# app.config['MONGO_DBNAME'] = 'mongotask'
+# app.config['MONGO_URI'] = 'mongodb://localhost:27017/mongotask'
 
 # setup secret_key
 app.secret_key = SECRET
@@ -60,8 +53,6 @@ api.add_resource(Store, '/store/<string:name>')
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserResource, '/register')
-
-print("running app on {} on the port {}".format(SERVER_HOST, SERVER_PORT))
 
 if __name__ == '__main__':
     from db import db
