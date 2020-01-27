@@ -16,6 +16,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=test
       - POSTGRES_SCHEMA=test
+      - DATABASE_URL=postgresql+psycopg2://postgres:Postgres2019!@app1postgres:5432/test
     volumes: 
       - ./:/app/
     ports: 
