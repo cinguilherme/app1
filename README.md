@@ -83,3 +83,6 @@ ready docker infra for local development in any machine.
 #### flask cheat-sheets
 
 https://www.youtube.com/redirect?q=http%3A%2F%2Fprettyprinted.com%2Fflaskcheatsheet%2F&redir_token=2tSg9aEYaBIXZNrhEmv8V_VkxLh8MTU3OTg3NTk4NUAxNTc5Nzg5NTg1&v=RdSrkkrj3l4&event=video_description
+
+##### DRAW IO
+https://www.draw.io/#G1KRI1ilUD1jfG--RwuQBjlCPfgfWATHSR
