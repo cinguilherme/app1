@@ -36,6 +36,9 @@ Python: Configure Tests Select a test framework and configure it to display the 
 
 #####################################
 
+### uWSDL production ready server, undersatnd this a bit more.
+#### WSGI
+
 #### flask SqlAlchemy
 
 its ready to use. But with some grunt work to be done. 
