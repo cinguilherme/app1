@@ -1,6 +1,6 @@
+Flask
 Flask-RESTful
 Flask-JWT
-pytest
 
 flask-SQLAlchemy 
 psycopg2 
@@ -8,8 +8,9 @@ Flask-Migrate
 Flask-Script
 
 flask_pymongo
-flask_cors
 bson
+
+flask_cors
 
 flask-socketio
 eventlet
@@ -20,3 +21,9 @@ kafka-python
 
 #rabitMQ stuff
 pika
+
+## Test
+pytest
+
+# server
+uwsgi
