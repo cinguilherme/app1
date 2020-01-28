@@ -4,7 +4,7 @@ import postgres
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from flask_socketio import SocketIO
+from flask_migrate import Migrate
 
 import os
 
@@ -12,9 +12,15 @@ from resources.item import Item, ItemList
 from resources.user import UserResource
 from resources.store import Store, StoreList
 
-SECRET = os.environ['SECRET']
+try:
+    SECRET = os.environ['SECRET']
+except:
+    SECRET = 'seecret_local'
 
-API_SETTING = os.environ['API_SETTING']
+try:
+    API_SETTING = os.environ['API_SETTING']
+except:
+    API_SETTING = 'development'
 
 app = Flask(__name__)
 
@@ -40,10 +46,6 @@ def create_tables():
     db.create_all()
     db.session.commit()
 
-
-# wrap websocket in the app
-socketIO = SocketIO(app)
-
 # actual app resources and endpoints #######
 
 jwt = JWT(app, authenticate, identity)  # /auth
@@ -54,19 +56,16 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserResource, '/register')
 
-if __name__ == '__main__':
-    from db import db
-    db.init_app(app)
+from db import db
+db.init_app(app)
+migrate = Migrate(app, db)
 
+if __name__ == '__main__':
+    
     from models.user import UserModel
     from models.store import StoreModel
     from models.item import ItemModel
     db.create_all()
-    db.session.commit()
-
-    # Theoretcly run the app with socketIO
-    # to have it running as Websocket application
-    # socketIO.run(app)
 
     # this option should be used for the rest application flavor
     app.run(host="0.0.0.0", port=5000, debug=True)

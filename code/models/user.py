@@ -2,7 +2,10 @@ from os import environ
 
 from db import db
 
-schema = environ['POSTGRES_SCHEMA']
+try:
+    schema = environ['POSTGRES_SCHEMA']
+except:
+    schema = 'test'
 
 
 class UserModel(db.Model):
