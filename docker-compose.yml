@@ -20,25 +20,25 @@ services:
     networks:
       - postgres-compose-network
 
-  # app-migration-service:
-  #   build:
-  #     context: .
-  #   image: app1:latest
-  #   environment:
-  #     - SECRET=TXgKIXx6UHq4vHMfWoQ8H7JB0ut6gsBrwH0BaaHprDXEJ9COLC81sDz1z4ZXWaA23gph7CjSiLwkPVCsmXjhvECiV9hCAE1o4n8VOJixr1VR95cy6sPWOCe6UZNKW4eJeCzPIuSMQ5cZXAt9PLBCG77jFBJIYOIvjHF9IwwkghebHwKL16vtjJUoPKabt1YbC03NvJ3noKflIqTlxTObn7LcGPTaG7qWShkf7dnrAA7qg5nTgxOUfaZ0FB6AQdI0
-  #     - API_SETTING=development
-  #     - POSTGRES_DB=test
-  #     - POSTGRES_SCHEMA=test
-  #     - DATABASE_URL=postgresql+psycopg2://postgres:Postgres2019!@app1postgres:5432/test
-  #   volumes:
-  #     - ./:/app/
-  #   ports:
-  #     - 5003:5000
-  #   depends_on:
-  #     - app1postgres
-  #   command: python app/code/manage.py db init
-  #   networks:
-  #     - postgres-compose-network
+  app-migration-service:
+    build:
+      context: .
+    image: app1:latest
+    environment:
+      - SECRET=TXgKIXx6UHq4vHMfWoQ8H7JB0ut6gsBrwH0BaaHprDXEJ9COLC81sDz1z4ZXWaA23gph7CjSiLwkPVCsmXjhvECiV9hCAE1o4n8VOJixr1VR95cy6sPWOCe6UZNKW4eJeCzPIuSMQ5cZXAt9PLBCG77jFBJIYOIvjHF9IwwkghebHwKL16vtjJUoPKabt1YbC03NvJ3noKflIqTlxTObn7LcGPTaG7qWShkf7dnrAA7qg5nTgxOUfaZ0FB6AQdI0
+      - API_SETTING=development
+      - POSTGRES_DB=test
+      - POSTGRES_SCHEMA=test
+      - DATABASE_URL=postgresql+psycopg2://postgres:Postgres2019!@app1postgres:5432/test
+    volumes:
+      - ./:/app/
+    ports:
+      - 5003:5000
+    depends_on:
+      - app1postgres
+    command: python app/code/manage.py db init
+    networks:
+      - postgres-compose-network
 
   # app1-socket:
   #   build:
