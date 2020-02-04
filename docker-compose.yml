@@ -1,5 +1,6 @@
 version: "3.1"
 services:
+  #----------------------------------------------------
   app:
     build:
       context: .
@@ -60,6 +61,8 @@ services:
   #   networks:
   #     - postgres-compose-network
 
+  #------------------------------------------------
+
   app1postgres:
     image: postgres
     environment:
@@ -71,19 +74,20 @@ services:
     networks:
       - postgres-compose-network
 
-  # app1mongodb:
-  #   image: mongo
-  #   restart: always
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: example
-  #   ports:
-  #     - 27018:27017
-  #   volumes:
-  #     - data_app1mongodb:/data/db
-  #   networks:
-  #     - postgres-compose-network
-
+  #--------------------------------------------------
+  app1mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27018:27017
+    volumes:
+      - data_app1mongodb:/data/db
+    networks:
+      - postgres-compose-network
+  #--------------------------------------------------
   ## not required as well
   # mongo-express:
   #   image: mongo-express
@@ -98,6 +102,7 @@ services:
   #     - app1mongodb
   #   networks:
   #     - postgres-compose-network
+  #--------------------------------------------
   # not required for development,
   # just nice to have in case want to check the DB
   # pgadmin-compose:

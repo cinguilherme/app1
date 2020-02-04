@@ -1,5 +1,8 @@
 from db import db
 from os import environ
+from sqlalchemy.dialects.postgresql import JSON
+
+from models import item
 
 try:
     schema = environ['POSTGRES_SCHEMA']
@@ -13,17 +16,16 @@ class StoreModel(db.Model):
     __table_args__ = {'schema': schema}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-
-    # items = db.relationship('ItemModel', lazy='dynamic')
+    data = db.Column(JSON)
 
     def __init__(self, name):
-        self.name = name
+        self.data = {'name': name}
+
+    def load_items():
+        item.ItemModel.get_all_items()
 
     def json(self):
-        return {'name': self.name}
-        # return {'name': self.name,
-        #        'items': [item.json for item in self.items.all()]}
+        return {'data': self.data}
 
     def save_to_db(self):
         db.session.add(self)

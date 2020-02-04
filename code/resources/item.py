@@ -37,7 +37,8 @@ class Item(Resource):
             json = item.json()
             obj = {'item': json}
             return obj, 201
-        except Exception:
+        except Exception as e:
+            print(e)
             return {'message': 'problem occurred'}, 503
 
     def put(self, name):

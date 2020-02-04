@@ -2,10 +2,9 @@ from os import environ
 
 from db import db
 
-try:
-    schema = environ['POSTGRES_SCHEMA']
-except:
-    schema = 'test'
+from sqlalchemy.dialects.postgresql import JSON
+
+schema = environ['POSTGRES_SCHEMA']
 
 
 class ItemModel(db.Model):
@@ -14,19 +13,13 @@ class ItemModel(db.Model):
     __table_args__ = {'schema': schema}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    price = db.Column(db.Float(precision=2))
-
-    # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
-    # store = db.relationship('StoreModel')
+    data = db.Column(JSON)
 
     def __init__(self, name, price, store_id):
-        self.name = name
-        self.price = price
-        self.store_id = store_id
+        self.data = {'name': name, 'price': price, 'store_id': store_id}
 
     def json(self):
-        return {'name': self.name, 'price': self.price}
+        return {'data': self.data}
 
     def save_to_db(self):
         db.session.add(self)
@@ -38,7 +31,8 @@ class ItemModel(db.Model):
 
     @classmethod
     def item_by_name(cls, name):
-        return cls.query.filter_by(name=name).first()
+        return cls.query.all()
+        filter(ItemModel.data['name'].astext == name).first()
 
     @classmethod
     def get_all_items(cls):
