@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 
 from models.item import ItemModel
+from models_nosql.items import ItemCollection
 
 parser = reqparse.RequestParser()
 parser.add_argument('price',
@@ -66,4 +67,5 @@ class Item(Resource):
 class ItemList(Resource):
     def get(self):
         items = [item.json() for item in ItemModel.get_all_items()]
-        return {'items': items}, 200
+        nosql_items = ItemCollection.getAll()
+        return {'items': items, 'nosql': nosql_items}, 200

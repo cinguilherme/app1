@@ -11,7 +11,7 @@ services:
       - POSTGRES_DB=test
       - POSTGRES_SCHEMA=test
       - DATABASE_URL=postgresql+psycopg2://postgres:Postgres2019!@app1postgres:5432/test
-      - MONGO_URL=mongodb://root:example@app1mongodb:27018/test
+      - MONGO_URL=mongodb://root:example@app1mongodb:27017/test_db
     volumes:
       - ./:/app/
     ports:

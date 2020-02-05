@@ -2,7 +2,7 @@ from db import db
 from security import authenticate, identity
 
 import postgres
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_restful import Api
 from flask_jwt import JWT
 from flask_migrate import Migrate
@@ -39,6 +39,7 @@ app.secret_key = SECRET
 # Wrap API in the app
 api = Api(app)
 mongo.init_app(app)
+main = Blueprint('main', __name__)
 
 # be sure all tables exist befire start
 # this does not replace a migration strategy

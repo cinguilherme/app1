@@ -9,10 +9,7 @@ Flask-Migrate
 Flask-Script
 
 # flask with mongo
-pymongo
-Flask-PyMongo
 flask_pymongo
-bson
 
 # cors
 flask_cors
