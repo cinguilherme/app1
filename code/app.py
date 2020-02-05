@@ -13,9 +13,11 @@ from resources.item import Item, ItemList
 from resources.user import UserResource
 from resources.store import Store, StoreList
 
+from extensions import mongo
+
 try:
     SECRET = os.environ['SECRET']
-except as e:
+except:
     SECRET = 'seecret_local'
 
 try:
@@ -28,17 +30,15 @@ app = Flask(__name__)
 DB_URL = postgres.get_postgres_uri()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+app.config["MONGO_URI"] = os.environ['MONGO_URL']
 
-# MONGO_DB NO SQL configs
-# app.config['MONGO_DBNAME'] = 'mongotask'
-# app.config['MONGO_URI'] = 'mongodb://localhost:27017/mongotask'
 
 # setup secret_key
 app.secret_key = SECRET
 
 # Wrap API in the app
 api = Api(app)
-
+mongo.init_app(app)
 
 # be sure all tables exist befire start
 # this does not replace a migration strategy
@@ -50,6 +50,8 @@ def create_tables():
 # actual app resources and endpoints #######
 
 
+#########
+
 jwt = JWT(app, authenticate, identity)  # /auth
 
 api.add_resource(StoreList, '/stores')
@@ -57,6 +59,9 @@ api.add_resource(Store, '/store/<string:name>')
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserResource, '/register')
+
+#########
+
 
 db.init_app(app)
 migrate = Migrate(app, db)

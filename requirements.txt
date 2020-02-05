@@ -2,16 +2,22 @@ Flask
 Flask-RESTful
 Flask-JWT
 
+# SQL 
 flask-SQLAlchemy 
 psycopg2 
 Flask-Migrate
 Flask-Script
 
+# flask with mongo
+pymongo
+Flask-PyMongo
 flask_pymongo
 bson
 
+# cors
 flask_cors
 
+# sockets and events
 flask-socketio
 eventlet
 gevent
