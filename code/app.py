@@ -1,3 +1,4 @@
+from db import db
 from security import authenticate, identity
 
 import postgres
@@ -14,7 +15,7 @@ from resources.store import Store, StoreList
 
 try:
     SECRET = os.environ['SECRET']
-except:
+except as e:
     SECRET = 'seecret_local'
 
 try:
@@ -48,6 +49,7 @@ def create_tables():
 
 # actual app resources and endpoints #######
 
+
 jwt = JWT(app, authenticate, identity)  # /auth
 
 api.add_resource(StoreList, '/stores')
@@ -56,12 +58,11 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserResource, '/register')
 
-from db import db
 db.init_app(app)
 migrate = Migrate(app, db)
 
 if __name__ == '__main__':
-    
+
     from models.user import UserModel
     from models.store import StoreModel
     from models.item import ItemModel
